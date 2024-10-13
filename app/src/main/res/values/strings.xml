@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">DemoTask</string>
+    <string name="confirm">Confirm</string>
+    <string name="title_email">emter Username/email</string>
+    <string name="pin_number">enter pw</string>
+    <string name="mainList">ItemsList</string>
+    <string name="movies_list">Movies List</string>
+    <string name="title">"Title : "</string>
+    <string name="back_drop">"Path : "</string>
+    <string name="language">"Origenal Lang : "</string>
+    <string name="item">MovieItem</string>
+</resources>
