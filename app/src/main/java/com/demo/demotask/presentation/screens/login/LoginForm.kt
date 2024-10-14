@@ -32,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.demo.demotask.R
 import com.demo.demotask.data.model.UserModel
+import com.demo.demotask.presentation.component.CircularIndeterminateProgressBar
 import com.demo.demotask.presentation.ui.theme.Purple80
 import com.demo.demotask.presentation.ui.theme.black
 import com.demo.demotask.presentation.ui.theme.white
@@ -70,7 +72,9 @@ fun LoginForm(loginViewModel: LoginViewModel) {
     Surface(modifier = Modifier.background(white)) {
         val context = LocalContext.current
         val scrollState = rememberScrollState()
+
         var credentials by remember { mutableStateOf(Credentials()) }
+        val isLoading by loginViewModel.isLoading.collectAsState()
 
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(Unit) {
@@ -84,6 +88,8 @@ fun LoginForm(loginViewModel: LoginViewModel) {
                 .padding(horizontal = 30.dp)
                 .verticalScroll(state = scrollState)
         ) {
+            CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
+
             Spacer(modifier = Modifier.height(30.dp))
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "",

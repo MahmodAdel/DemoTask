@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.demo.demotask.data.model.UserModel
+import com.demo.demotask.presentation.component.CircularIndeterminateProgressBar
 import com.demo.demotask.presentation.navigation.Routes
 import com.demo.demotask.presentation.vm.LoginViewModel
 import com.demo.taskdemo.common.Resource
@@ -50,6 +51,8 @@ fun LoginScreen(navHostController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
+                    loginViewModel._login.value = Resource.InitScreen()
+
                 }
             }
             LoginForm(loginViewModel)

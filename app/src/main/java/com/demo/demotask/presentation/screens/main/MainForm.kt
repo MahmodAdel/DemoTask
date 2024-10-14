@@ -38,9 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.demo.demotask.R
-import com.demo.demotask.data.model.BaseModelMovie
 import com.demo.demotask.data.model.MovieItem
 import com.demo.demotask.data.model.UserModel
+import com.demo.demotask.presentation.component.CircularIndeterminateProgressBar
 import com.demo.demotask.presentation.component.TopBar
 import com.demo.demotask.presentation.navigation.Routes
 import com.demo.demotask.presentation.ui.theme.white
@@ -53,13 +53,13 @@ fun MainForm(
     navController: NavHostController,
     userModel: UserModel,
 ) {
-
     val mainViewModel = hiltViewModel<MainViewModel>()
     val listMovies by mainViewModel.movies.collectAsState()
+    val isLoading by mainViewModel.isLoading.collectAsState()
+
     LaunchedEffect(Unit) {
         mainViewModel.getMovies()
     }
-
     Scaffold(
         topBar = {
             TopBar(stringResource(id = R.string.mainList), navController)
@@ -70,6 +70,7 @@ fun MainForm(
                     .fillMaxSize()
                     .padding(horizontal = 30.dp, vertical = 60.dp)
             ) {
+                CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
                 Spacer(modifier = Modifier.height(15.dp))
                 Card(
                     colors = CardDefaults.cardColors(containerColor = white),
@@ -143,16 +144,7 @@ fun starService(
     navController.navigate(
         Routes.DETAILS_SCREEN.
         replace("{itemId}",it.dbId.toString())
-    ) {
-        navController.graph.startDestinationRoute?.let { route ->
-            popUpTo(route) {
-                saveState = true
-            }
-        }
-
-        launchSingleTop = true
-        restoreState = true
-    }
+    )
 }
 
 @Composable
@@ -177,6 +169,7 @@ fun ServiceCard(item: MovieItem, onClick: (MovieItem) -> Unit) {
                 .clickable { onClick(item) }
         ) {
             Column {
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
